@@ -1,29 +1,28 @@
 package backtrack
 
-import "strings"
-
 func generateParenthesis(n int) []string {
 	ret := make([]string, 0)
-	generateParenthesisBacktrack(n, 0, "", &ret)
+	generateParenthesisBacktrack(n, n, "", &ret)
 	return ret
 }
 
-func generateParenthesisBacktrack(n, i int, track string, result *[]string) {
-	if i == 2*n {
-		if generateParenthesisIsValid(track) {
-			*result = append(*result, track)
-		}
+func generateParenthesisBacktrack(left, right int, track string, result *[]string) {
+
+	if right < left {
 		return
 	}
 
-	for _, ch := range [2]rune{'(', ')'} {
-		sb := strings.Builder{}
-		sb.WriteRune(ch)
-		sb.WriteString(track)
-		track = sb.String()
-		generateParenthesisBacktrack(n, i+1, sb.String(), result)
-		track = track[1:]
+	if left == 0 && right == 0 {
+		*result = append(*result, track)
+		return
 	}
+
+	if left < 0 || right < 0 {
+		return
+	}
+
+	generateParenthesisBacktrack(left-1, right, track+"(", result)
+	generateParenthesisBacktrack(left, right-1, track+")", result)
 }
 
 func generateParenthesisIsValid(s string) bool {
