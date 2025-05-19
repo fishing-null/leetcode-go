@@ -1,10 +1,5 @@
 package backtrack
 
-var (
-	ret   [][]int
-	track []int
-)
-
 func combine(n int, k int) [][]int {
 	ret = make([][]int, 0)
 	track = make([]int, 0)
